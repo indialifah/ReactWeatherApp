@@ -25,11 +25,18 @@ function App() {
     fetchWeather();
   }, [query, units])
 
+  const formatBackground = () => {
+    if (!weather) return "from-indigo-500 from-20% via-sky-500 via-40% to-emerald-500 t0-70%";
+    const threshold = units === "metric" ? 20 : 60;
+    if (weather.temp <= threshold) return "from-indigo-500 from-20% via-sky-500 via-40% to-emerald-500 t0-70%"; 
+    return "from-violet-500 from-20% via-fuchsia-500 via-40% to-rose-500 t0-70%";
+  }
+
   return (
     <div className="App">
-      <div className='mx-auto max-w-screen-md mt-4 pb-10 pt-5 px-32 bg-gradient-to-br from-indigo-500 from-20% via-purple-500 via-40% to-pink-500 t0-70% h-fit shadow-xl shadow-gray-400 rounded-2xl'>
-        <TopButton />
-        <Inputs />
+      <div className={`mx-auto max-w-screen-md mt-4 pb-10 pt-5 px-32 bg-gradient-to-br h-fit shadow-xl shadow-gray-400 rounded-2xl ${formatBackground()}`}>
+        <TopButton setQuery={setQuery} />
+        <Inputs setQuery={setQuery} units={units} setUnits={setUnits} />
 
         {weather && (
           <div>
